@@ -50,7 +50,7 @@ The first version ran `DEL key` on any error, including errors before the reques
 
 ## Known limits
 
-- **Fails open.** If Redis is down the claim is skipped, so chat keeps working but the race can return. This was a deliberate availability-over-strictness choice.
+- **Fails open in production.** There, a Redis error during the claim let the request create anyway, so chat kept working but the race could return while Redis was down. This was a deliberate availability-over-strictness choice. This repro doesn't model Redis outages, so here a Redis error is simply thrown.
 - **The loser can get the id before the winner's rows exist.** A message sent in that gap can fail a participant check.
 - **Row writes aren't transactional.** `TransactWriteItems` would make the pair all-or-nothing.
 - **Redis is the only guard.** A deterministic id (`conv_{min}_{max}`) or a pair item written with `attribute_not_exists` would make duplicates impossible in DynamoDB itself.
