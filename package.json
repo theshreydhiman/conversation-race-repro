@@ -1,0 +1,6 @@
+{
+  "name": "conversation-race-repro",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test" }
+}
